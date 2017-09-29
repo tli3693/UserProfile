@@ -1,0 +1,30 @@
+{
+  "name": "userprofile",
+  "version": "1.0.0",
+  "description": "Using MEAN Stack",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tli3693/UserProfile.git"
+  },
+  "author": "Troy Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tli3693/UserProfile/issues"
+  },
+  "homepage": "https://github.com/tli3693/UserProfile#readme"
+}
