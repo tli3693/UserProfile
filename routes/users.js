@@ -40,15 +40,16 @@ router.post('/authenticate', function(req, res) {
     console.log('Username passed: ' + req.body);
     User.getUserByUsername(username, function(err, user) {
         if(err) throw err;
-        const userFound = {
-            id: user._id,
-            name: user.name,
-            username: user.username,
-            email: user.email
-        }
+
         if(!user) {
             return res.json({success: false, msg: 'Username not found!'});
         } else {
+            const userFound = {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email
+            }
             User.comparePassword(password, user.password, function(err, isMatch) {
                 if(err) throw err;
                 if(isMatch) {
@@ -70,13 +71,28 @@ router.post('/authenticate', function(req, res) {
    
 });
 
-// Profile
-router.get('/profile/:username', function(req, res) {
-    res.send('<h3>User Profile</h3>' + 'Welcome ' + req.params.username + '!');
+// Profile by username
+router.get('/profile/:username', passport.authenticate('jwt', {session: false}), function(req, res) {
+    User.getUserByUsername(req.params.username, function(err, user) {
+        if(err) throw err;
+
+        if(!user) {
+
+            return res.json({success: false, msg: 'Username not found!'});
+        } else {
+            user.password = ''; // hide password before returning
+            res.json({
+                user: user,
+                success: true
+            });
+        }
+        
+    });
+
 });
 
 // Profile
-router.get('/profile', passport.authenticate('jwt', {session: false}), function(req, res) {
+router.get('/profile', function(req, res) {
     console.log("Loading profile");
     res.json({
         user: req.user
