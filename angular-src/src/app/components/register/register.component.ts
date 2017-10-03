@@ -15,11 +15,11 @@ export class RegisterComponent implements OnInit {
   errorMessage: String;
   input = {
     "error": false,
-    "errorMessage": ""
+    "errorMessage": null
   }
   // Inject services into constructor
   constructor(private validateService: ValidateService, private flashMessagesService: FlashMessagesService) { 
-    this.input.errorMessage = "TESTING";
+    
   }
 
   ngOnInit() {
@@ -53,6 +53,9 @@ export class RegisterComponent implements OnInit {
         return false;
       }
     }
+
+    this.input.error = false;
+    this.input.errorMessage = "";
     this.flashMessagesService.show("SUCCESSFUL REGISTER");
     console.log("Successful register!");
     

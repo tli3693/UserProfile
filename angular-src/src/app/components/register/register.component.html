@@ -1,5 +1,5 @@
 <div>
-<div *ngIf="input.error" class="alert alert-danger">
+<div *ngIf="input.error && input.errorMessage" class="alert alert-danger">
   {{input.errorMessage}}
 </div>
 <div class="row">
