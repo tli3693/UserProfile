@@ -18,14 +18,14 @@ router.post('/register', function(req, res) {
     
     console.log("DEBUG: New user object: " + newUser);
     if(!newUser.password) {
-        res.send('Password cannot be empty!');
+        res.json({success: false, msg:'Password cannot be empty.'});
     }
     else {
         User.addUser(newUser, function(err, user) {
             if(err) {
-                res.send('Error while registering user!');
+                res.json({success: false, msg:'Failed to register user'});
             } else {
-                res.send('Registered user!');
+                res.json({success: true, msg:'User registered'});
             }
         });
     }
