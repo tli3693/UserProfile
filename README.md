@@ -16,12 +16,14 @@ Front-End
 angular-cli
 angular2-flash-messages
 
-# Angular Commands Used
+
 nodemon
 
+# Angular Commands Used
 npm install -g @angular/cli
 ng new angular-src
 cd angular-src
-ng serve
 ng g component path/to/create/component
 ng g service path/to/create/service
+
+ng serve

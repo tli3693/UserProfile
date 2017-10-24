@@ -39,7 +39,7 @@ app.use(passport.session());
 require('./cfg/passport')(passport);
 
 // Send to users page
-app.use('/users', users);;
+app.use('/users', users);
 
 // Home Page Route
 app.get('/', function(req, res) {
