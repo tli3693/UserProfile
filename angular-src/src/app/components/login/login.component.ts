@@ -34,7 +34,16 @@ export class LoginComponent implements OnInit {
     }
     console.log("Attempting to login as: " + user.username);
     this.authService.authenticateUser(user).subscribe(data => {
-      console.log(data);
+      if(data.success) {
+        console.log(data);
+        this.authService.storeUserData(data.token, data.user);
+        this.flashMessagesService.show('You are no logged in as ' + user.username, {cssClass: 'alert-success', timeout: 5000});
+        this.router.navigate(['dashboard']);
+      } else {
+        this.flashMessagesService
+          .show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+        this.router.navigate(['login']);
+      }
     });
   }
 
