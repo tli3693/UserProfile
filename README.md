@@ -31,3 +31,8 @@ ng g service path/to/create/service
 
 ## builds the application and starts a web server
 ng serve
+
+
+# Ports used
+node server: 3000
+front end: 4200

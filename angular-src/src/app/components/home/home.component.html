@@ -2,7 +2,7 @@
     <h1>User Profile App</h1>  
     <p class="lead">Welcome to your home page!</p>
     <div>
-      <a class="btn btn-primary" [routerLink]="['/register']">Register</a> <a class="btn btn-default" [routerLink]="['/login']">Login</a>
+      <a class="btn btn-primary" *ngIf="!authService.loggedIn()" [routerLink]="['/register']">Register</a> <a class="btn btn-default" *ngIf="!authService.loggedIn()" [routerLink]="['/login']">Login</a>
     </div>
   
 </div>

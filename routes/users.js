@@ -92,11 +92,8 @@ router.get('/profile/:username', passport.authenticate('jwt', {session: false}),
 });
 
 // Profile
-router.get('/profile', function(req, res) {
-    console.log("Loading profile");
-    res.json({
-        user: req.user
-    });
+router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+    res.json({user: req.user});
 });
 
 module.exports = router;

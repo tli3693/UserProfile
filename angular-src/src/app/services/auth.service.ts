@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
@@ -47,4 +47,28 @@ export class AuthService {
     localStorage.clear();
   }
 
+  getProfile() {
+    this.loadToken();
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    // Calls back-end webservice get request to get profile
+    // Need token
+
+    return this.http.get('http://localhost:3000/users/profile', {headers: headers})
+      .map(res => res.json());
+  }
+
+  // Loads token from local storage
+  loadToken() {
+    const token = localStorage.getItem('id_token');
+    this.authToken = token;
+
+  }
+
+  // Angular2 JWT to check if token not expired (logged in or not)
+  loggedIn() {
+    return tokenNotExpired('id_token');
+  }
 }
