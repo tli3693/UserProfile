@@ -31,8 +31,9 @@ ng g service path/to/create/service
 
 ## builds the application and starts a web server
 ng serve
+ng build to build app out to root folder (../public)
 
 
 # Ports used
-node server: 3000
-front end: 4200
+node server: 3000 when using ng build
+front end: 4200 when using ng serve

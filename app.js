@@ -46,6 +46,10 @@ app.get('/', function(req, res) {
     res.send('Loading...');
 });
 
+app.get('*', (req,res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 // Start server (listen on port number)
 app.listen(port, function() {
     console.log('DEBUG: ' + new Date() + ' - Server started on port ' + port );
