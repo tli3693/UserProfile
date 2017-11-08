@@ -37,3 +37,10 @@ ng build to build app out to root folder (../public)
 # Ports used
 node server: 3000 when using ng build
 front end: 4200 when using ng serve
+
+
+# To start app
+1. ng build in angular-src directory
+2. nodemon in root directory
+Note: make sure to start mongo at mongodb://localhost:27017/meanauth (default)
+
