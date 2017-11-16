@@ -1,43 +1,9 @@
 <div class="jumbotron text-center">
-  <h1>User Profile App</h1>
-  <p class="lead">Welcome to your home page!</p>
+  <h1>Welcome<span *ngIf="user">, {{user.name}}!!</span></h1>
+  <p class="lead">This is the home page!</p>
   <div>
     <a class="btn btn-primary" *ngIf="!authService.loggedIn()" [routerLink]="['/register']">Register</a>
     <a class="btn btn-default" *ngIf="!authService.loggedIn()" [routerLink]="['/login']">Login</a>
   </div>
 
 </div>
-
-<div class="jumbotron">
-  <div class="bottom row">
-    <div class="right col-md-4">
-      <h3>TODO</h3>
-      <p>Login to view profile</p>
-
-    </div>
-    <div class="right col-md-4">
-      <h3>TODO</h3>
-      <p>Register if new</p>
-    </div>
-    <div class="col-md-4">
-      <h3>TODO</h3>
-      <p>Edit profile</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="right col-md-4">
-      <h3>TODO</h3>
-      <p>Placeholder 1</p>
-
-    </div>
-    <div class="right col-md-4">
-      <h3>TODO</h3>
-      <p>Placeholder 2</p>
-    </div>
-    <div class="col-md-4">
-      <h3>TODO</h3>
-      <p>Placeholder 3</p>
-    </div>
-  </div>
-</div>
-

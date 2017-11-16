@@ -22,6 +22,7 @@ mongoose.connection.on('error', function() {
 
 // route to users.js file
 const users = require('./routes/users'); 
+const tasks = require('./routes/tasks'); 
 
 // CORS Middleware
 app.use(cors());
@@ -40,6 +41,7 @@ require('./cfg/passport')(passport);
 
 // Send to users page
 app.use('/users', users);
+app.use('/tasks', tasks);
 
 // Home Page Route
 app.get('/', function(req, res) {

@@ -20,7 +20,7 @@ angular2-flash-messages
 nodemon  
 
 
-# Angular Commands Used
+# Install angular CLI
 npm install -g @angular/cli  
 ng new angular-src  
 cd angular-src  
@@ -31,7 +31,7 @@ ng g service path/to/create/service
 
 ## builds the application and starts a web server
 ng serve
-ng build to build app out to root folder (../public)
+ng build to build app out to root folder (root/public)
 
 
 # Ports used
