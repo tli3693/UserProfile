@@ -7,52 +7,23 @@
       </h3>
       <p style="text-decoration: underline; color: rgb(0, 128, 90)">Today ({{todaysDate}}): {{numDueToday}} tasks</p>
       <div class="items row container">
-        <div class="col-md-6">
-          <div class="well col-md-12">
-            <a>TEST HEADER 1</a>
-            <br/> Placeholder description...
-            <br/>
-            <div>
-              <button class="btn-success">
-                <i class="glyphicon glyphicon-ok"></i>
-              </button>
-              <span> </span>
-              <button class="btn-danger">
-                <i class="glyphicon glyphicon-remove"></i>
-              </button>
+        <div *ngFor="let task of tasksList">
+          <div class="col-md-6">
+            <div class="well col-md-12">
+              <a>{{task.name}}</a>
+              <br/> {{task.description}}
+              <br/> {{task.dueDate}}
+              <br/> {{task.statusCode}}
+              <div>
+                <button class="btn-success">
+                  <i class="glyphicon glyphicon-ok"></i>
+                </button>
+                <span> </span>
+                <button class="btn-danger">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="well col-md-12">
-            TEST HEADER 2
-            <br/> Placeholder description...
-            <div>
-              <button class="btn-success">
-                <i class="glyphicon glyphicon-ok"></i>
-              </button>
-              <span> </span>
-              <button class="btn-danger">
-                <i class="glyphicon glyphicon-remove"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="items row container">
-        <div class="col-md-6">
-          <div class="well col-md-12">
-            TEST HEADER 3
-            <br/> Placeholder description
-            <br/> Description continued...
-            <br/>
-            <button class="btn-success">
-              <i class="glyphicon glyphicon-ok"></i>
-            </button>
-            <span> </span>
-            <button class="btn-danger">
-              <i class="glyphicon glyphicon-remove"></i>
-            </button>
           </div>
         </div>
       </div>

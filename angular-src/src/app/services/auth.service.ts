@@ -40,6 +40,11 @@ export class AuthService {
     this.user = user;
 
   }
+  
+  testAuthMethod() {
+    console.log("TEST SUCCESS");
+    return "HELLO?";
+  }
 
   logout() {
     this.authToken = null;

@@ -25,9 +25,10 @@ npm install -g @angular/cli
 ng new angular-src  
 cd angular-src  
 
-## use angular cli to create components/services  
+## use angular cli to create components/services (name included in path)
 ng g component path/to/create/component  
 ng g service path/to/create/service  
+e.g. ng g service services/task
 
 ## builds the application and starts a web server
 ng serve

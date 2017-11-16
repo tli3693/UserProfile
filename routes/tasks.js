@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../cfg/database');
 const Task = require('../models/task');
 
-// Register (/users)
+// TODO
 router.post('/add', function(req, res) {
     console.log("DEBUG 1: " + req);
     console.log("DEBUG 2: " + req.body);
@@ -32,7 +32,7 @@ router.post('/add', function(req, res) {
 
 });
 
-// Find all tasks
+// Find all tasks (working)
 router.post('/findAllTasks', function(req, res) {
     const username = req.body.username;
 
@@ -53,8 +53,13 @@ router.post('/findAllTasks', function(req, res) {
 });
 
 
-// Profile
-router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+// TODO
+router.get('/update', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+    res.json({user: req.user});
+});
+
+// TODO
+router.get('/remove', passport.authenticate('jwt', {session:false}), (req, res, next) => {
     res.json({user: req.user});
 });
 
