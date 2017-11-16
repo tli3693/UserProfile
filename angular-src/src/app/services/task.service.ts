@@ -16,5 +16,14 @@ export class TaskService {
     return this.http.post('http://localhost:3000/tasks/findAllTasks', {username: username}, {headers: headers})
     .map(res => res.json());
   }
+
+  getAllStatuses() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    console.log("In task.service.getTaskStatus(statusCode) function");
+    return this.http.get('http://localhost:3000/tasks/getAllTaskStatuses', {headers: headers})
+    .map(res => res.json());
+  }
   
 }

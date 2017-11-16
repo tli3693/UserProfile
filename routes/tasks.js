@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../cfg/database');
 const Task = require('../models/task');
+const Status = require('../models/status');
 
 // TODO
 router.post('/add', function(req, res) {
@@ -41,7 +42,6 @@ router.post('/findAllTasks', function(req, res) {
         if(err) throw err;
         if(userTasks) {
             console.log("SUCCESS");
-            console.log(userTasks);
             res.json({success: true, msg:"Successfully retrieved tasks for " + username + ".", tasksList: userTasks});
         }
         else {
@@ -61,6 +61,24 @@ router.get('/update', passport.authenticate('jwt', {session:false}), (req, res, 
 // TODO
 router.get('/remove', passport.authenticate('jwt', {session:false}), (req, res, next) => {
     res.json({user: req.user});
+});
+
+// Get task status by code
+router.get('/getAllTaskStatuses', function(req, res) {
+    console.log("123 - Before retrieving statuses");
+    Status.getAllStatus(function(err, statusArray) {
+        if(err) throw err;
+        if(statusArray) {
+            console.log("SUCCESS");
+            console.log(statusArray);
+            res.json({success: true, msg:"Successfully retrieved statuses.", statusArray: statusArray});
+        }
+        else {
+            console.log("FAILURE");
+            res.json({success: true, msg:"Failed to retrieve statuses"});
+        }
+    });
+    
 });
 
 module.exports = router;

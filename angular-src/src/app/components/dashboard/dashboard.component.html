@@ -15,8 +15,8 @@
               </p>
               <p class="taskDesc">{{task.description}}</p>
               <br/> Due: {{formatDate(task.dueDate)}}
-              <br/> Status: {{task.statusCode}}
-              <br/>
+              <br/> Status: {{getTaskStatusByCode(task.statusCode)}}
+              <br/><br/>
               <div class="buttonDiv pull-right">
                 <button class="btn-warning">
                   <i class="glyphicon glyphicon-edit"></i>
