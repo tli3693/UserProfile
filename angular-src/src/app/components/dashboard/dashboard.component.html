@@ -2,19 +2,26 @@
 <div class="jumbotron">
   <div class="row">
     <div class="right col-md-6">
-      <h3>Tasks
-        <a style="text-decoration: underline" [routerLink]="['/']">(View all)</a>
-      </h3>
-      <p style="text-decoration: underline; color: rgb(0, 128, 90)">Today ({{todaysDate}}): {{numDueToday}} tasks</p>
-      <div class="items row container">
-        <div *ngFor="let task of tasksList">
-          <div class="col-md-6">
-            <div class="well col-md-12">
-              <a>{{task.name}}</a>
-              <br/> {{task.description}}
-              <br/> {{task.dueDate}}
-              <br/> {{task.statusCode}}
-              <div>
+      <div class="tasksDiv well">
+        <h3>Tasks
+          <a style="text-decoration: underline" [routerLink]="['/']">(View all)</a>
+        </h3>
+        <p style="text-decoration: underline; color: rgb(0, 128, 90)">Today ({{todaysDate}}): {{numDueToday}} tasks</p>
+        <div class="items row">
+          <div class="col-md-6" *ngFor="let task of tasksList">
+            <div class="task well col-md-12">
+              <p class="taskHeader">
+                <a>{{task.name}}</a>
+              </p>
+              <p class="taskDesc">{{task.description}}</p>
+              <br/> Due: {{formatDate(task.dueDate)}}
+              <br/> Status: {{task.statusCode}}
+              <br/>
+              <div class="buttonDiv pull-right">
+                <button class="btn-warning">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </button>
+                <span> </span>
                 <button class="btn-success">
                   <i class="glyphicon glyphicon-ok"></i>
                 </button>
@@ -27,16 +34,39 @@
           </div>
         </div>
       </div>
+      <div class="well directReportsDiv">
+        <p style="text-decoration: underline; color: rgb(0, 128, 90)">Direct Reports</p>
+      </div>
     </div>
     <div class="col-md-6">
-      <h3>Tasks Overview</h3>
-      <p>TODO: Weekly tasks completion chart</p>
+      <div class="well chartDiv">
+        <h3>Tasks Overview</h3>
+        <p>TODO: Weekly tasks completion chart</p>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .well {
+  .task {
     background-color: #002b36;
+  }
+
+  .tasksDiv {}
+
+  .taskDesc {
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+    word-wrap: break-word;
+  }
+
+  .taskHeader {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px
   }
 </style>

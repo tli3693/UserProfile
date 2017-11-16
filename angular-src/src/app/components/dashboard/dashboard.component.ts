@@ -11,10 +11,10 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class DashboardComponent implements OnInit {
   todaysDate: String = "";
-  numDueToday: Number = 3;
+  numDueToday: Number = 0;
   currentUser: Object;
   tasksList : Object[];
-  
+
   constructor(
     private authService: AuthService,
     private taskService: TaskService,
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     var tmpDate = new Date();
     console.log(tmpDate);
-    this.todaysDate = (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
+    this.todaysDate = this.formatDate(tmpDate);
     console.log(this.todaysDate);
     this.authService.getProfile().subscribe(profile => {
       console.log("Got profile: " + profile.user.username);
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
         console.log(res);
         if(res.tasksList) {
           this.tasksList = res.tasksList;
-          console.log(this.tasksList);
+          this.numDueToday = this.tasksList.length; // TODO: get today's due
         }
 
       },
@@ -48,6 +48,11 @@ export class DashboardComponent implements OnInit {
       return false;
     });
     
+  }
+
+  formatDate(date) {
+    var tmpDate = new Date(date);
+    return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
   }
 
 }
