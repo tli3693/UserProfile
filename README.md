@@ -39,9 +39,11 @@ ng build to build app out to root folder (root/public)
 node server: 3000 when using ng build
 front end: 4200 when using ng serve
 
+# start mongo
+1. mongod.exe --config d:\mongodb\mongo.config
 
 # To start app
-1. ng build in angular-src directory
-2. nodemon in root directory
+1. ng build in angular-src directory (ex: D:\Git Repositories\UserProfile\angular-src)
+2. nodemon in root directory (ex: D:\Git Repositories\UserProfile)
 Note: make sure to start mongo at mongodb://localhost:27017/meanauth (default)
-
+my example: D:\mongodb -> Run start_mongo.bat

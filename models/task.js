@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const config = require('../cfg/database');
 
+var Schema = mongoose.Schema;
+
+Status = require('./status');
 // Task Schema
-const TaskSchema = mongoose.Schema({
+const TaskSchema = Schema({
     _id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: false
     },
     name: {
@@ -24,9 +27,9 @@ const TaskSchema = mongoose.Schema({
         type: Date,
         required: true
     },
-    statusCode: {
-        type: String,
-        required: true
+    statusCode: String, // TODO: Remove statusCode as it is not needed; replaced by status(joining)
+    status: { type: Schema.Types.ObjectId,
+        ref: 'status'
     }
 });
 
@@ -38,9 +41,11 @@ module.exports.getTaskByName = function(name, callback) {
 
 module.exports.getTasksByUsername = function(username, callback) {
     const query = {user_username: username};
-    console.log("Finding tasks by username: " + username);
 
-    Task.find(query, callback);
+    Task.find(query, callback).populate('status').exec(function (err, tasks) {
+        if (err) return handleError(err);
+        console.log("OK");
+    });
 }
 
 module.exports.addTask = function(newTask, callback) {

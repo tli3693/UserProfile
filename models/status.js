@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const config = require('../cfg/database');
 
+var Schema = mongoose.Schema;
 // Status Schema
-const StatusSchema = mongoose.Schema({
+const StatusSchema = Schema({
     _id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: false
     },
     status: {
@@ -21,7 +22,6 @@ const StatusSchema = mongoose.Schema({
 const Status = module.exports = mongoose.model('status', StatusSchema, 'status');
 
 module.exports.getAllStatus = function(callback) {
-    console.log("Retrieving all status from db");
     var query = {};
     Status.find(query, callback);
 }

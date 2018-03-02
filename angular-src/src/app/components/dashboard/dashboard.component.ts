@@ -5,79 +5,83 @@ import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+	selector: 'app-dashboard',
+	templateUrl: './dashboard.component.html',
+	styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  todaysDate: String = "";
-  numDueToday: Number = 0;
-  currentUser: Object;
-  tasksList: Object[];
-  taskStatusList: [{ statusCode: string, status: string }];
+	todaysDate: String = "";
+	numDueToday: Number = 0;
+	currentUser: Object;
+	tasksList: Object[];
+	taskStatusList: any[];
+	count = 0;
 
-  constructor(
-    private authService: AuthService,
-    private taskService: TaskService,
-    private router: Router,
-    private flashMessagesService: FlashMessagesService) { }
+	constructor(
+		private authService: AuthService,
+		private taskService: TaskService,
+		private router: Router,
+		private flashMessagesService: FlashMessagesService) { }
 
-  ngOnInit() {
-    var tmpDate = new Date();
-    console.log(tmpDate);
-    this.todaysDate = this.formatDate(tmpDate);
-    console.log(this.todaysDate);
-    this.authService.getProfile().subscribe(profile => {
-      console.log("Got profile: " + profile.user.username);
-      this.currentUser = profile.user;
+	ngOnInit() {
+		var tmpDate = new Date();
+		this.todaysDate = this.formatDate(tmpDate);
 
-      this.taskService.getAllTasksByUsername(profile.user.username).subscribe(res => {
-        console.log(res);
-        if (res.tasksList) {
-          this.tasksList = res.tasksList;
-          this.numDueToday = this.tasksList.length; // TODO: get today's due
-        }
+		// Get profile from service
+		this.authService.getProfile().subscribe(profile => {
+			this.currentUser = profile.user;
 
-      },
-        err => {
-          console.log(err);
-          return false;
-        });
-    },
-      err => {
-        console.log(err);
-        return false;
-      });
-    this.getAllTaskStatuses();
-  }
+			this.taskService.getAllTasksByUsername(profile.user.username).subscribe(res => {
+				if (res.tasksList) {
+					var count = 0;
+					res.tasksList.forEach(function(task) {
+						console.log("Current count: " + ++count);
+						console.log('\nThe Task is %s', JSON.stringify(task, null, "\t"));
+					})
+					this.tasksList = res.tasksList;
+					this.numDueToday = this.tasksList.length; // TODO: get today's due
+				}
 
-  formatDate(date) {
-    var tmpDate = new Date(date);
-    return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
-  }
+			},
+				err => {
+					console.log(err);
+					return false;
+				});
+		},
+			err => {
+				console.log(err);
+				return false;
+			});
+		this.getAllTaskStatuses();
+	}
 
-  getAllTaskStatuses() {
-    this.taskService.getAllStatuses().subscribe(res => {
-      this.taskStatusList = res.statusArray;
-    },
-      err => {
-        console.log(err);
-        return false;
-      });
-  }
+	formatDate(date) {
+		var tmpDate = new Date(date);
+		return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
+	}
 
-  getTaskStatusByCode(code) {
-    var returnStatus = "N/A";
-    
-    if (!this.taskStatusList) {
-      this.getAllTaskStatuses();
-    }
-    this.taskStatusList.forEach(function (item, index, array) {
-      if (item.statusCode === code) {
-        returnStatus = item.status;
-      }
-    });
-    return returnStatus;
-  }
+	getAllTaskStatuses() {
+		this.taskService.getAllStatuses().subscribe(res => {
+			this.taskStatusList = res.statusArray;
+		},
+			err => {
+				console.log(err);
+				return false;
+			});
+	}
+
+	getTaskStatusByCode(code) {
+		var returnStatus = "N/A";
+
+		if (!this.taskStatusList) {
+			this.getAllTaskStatuses();
+		}
+		this.taskStatusList.forEach(function (item, index, array) {
+			if (item.statusCode === code) {
+				returnStatus = item.status;
+			}
+		});
+		return returnStatus;
+	}
 
 }
