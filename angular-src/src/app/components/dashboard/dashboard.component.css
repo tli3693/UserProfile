@@ -1,0 +1,19 @@
+	.task {
+		background-color: #002b36;
+	}
+
+	.taskDesc {
+		width: 180px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 15px;
+		word-wrap: break-word;
+	}
+
+	.taskHeader {
+		width: 180px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 15px
+	}

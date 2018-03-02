@@ -3,34 +3,36 @@
 	<div class="row">
 		<div class="right col-md-6">
 			<div class="tasksDiv well">
-				<h3>Tasks
-					<a style="text-decoration: underline" [routerLink]="['/']">(View all)</a>
+				<h3>
+					<a style="text-decoration: underline" [routerLink]="['/']">Your Tasks</a>
 				</h3>
-				<p style="text-decoration: underline; color: rgb(0, 128, 90)">Today ({{todaysDate}}): {{numDueToday}} tasks</p>
+				<span style="color: rgb(0, 128, 90)">Total: {{tasksDue?.length}}</span><br/>
 				<div class="items row">
-					<div class="col-md-6" *ngFor="let task of tasksList">
-						<div class="task well col-md-12">
-							<p class="taskHeader">
-								<a>{{task.name}}</a>
-							</p>
-							<p class="taskDesc">{{task.description}}</p>
-							Due: {{formatDate(task.dueDate)}}
-							<!-- <br/> Status: {{getTaskStatusByCode(task.statusCode)}} -->
-							<br/> Status: {{task.status?.status}}
-							<br/>
-							<br/>
-							<div class="buttonDiv pull-right">
-								<button class="btn-warning">
-									<i class="glyphicon glyphicon-edit"></i>
-								</button>
-								<span> </span>
-								<button class="btn-success">
-									<i class="glyphicon glyphicon-ok"></i>
-								</button>
-								<span> </span>
-								<button class="btn-danger">
-									<i class="glyphicon glyphicon-remove"></i>
-								</button>
+					<div *ngFor="let task of tasksDue">
+						<div class="col-md-6">
+							<div class="task well col-md-12">
+								<p class="taskHeader">
+									<a>{{task.name}}</a>
+								</p>
+								<p class="taskDesc">{{task.description}}</p>
+								Due: {{formatDate(task.dueDate)}}
+								<!-- <br/> Status: {{getTaskStatusByCode(task.statusCode)}} -->
+								<br/> Status: {{task.status?.status}}
+								<br/>
+								<br/>
+								<div class="buttonDiv pull-right">
+									<button class="btn-warning" title="Edit" (click)="editTask(task)">
+										<i class="glyphicon glyphicon-edit"></i>
+									</button>
+									<span> </span>
+									<button class="btn-success" title="Complete" (click)="completeTask(task)">
+										<i class="glyphicon glyphicon-ok"></i>
+									</button>
+									<span> </span>
+									<button class="btn-danger" title="Delete" (click)="deleteTask(task)">
+										<i class="glyphicon glyphicon-remove"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -49,27 +51,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.task {
-		background-color: #002b36;
-	}
-
-	.tasksDiv {}
-
-	.taskDesc {
-		width: 180px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-size: 15px;
-		word-wrap: break-word;
-	}
-
-	.taskHeader {
-		width: 180px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-size: 15px
-	}
-</style>

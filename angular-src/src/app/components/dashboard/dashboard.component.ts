@@ -11,7 +11,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class DashboardComponent implements OnInit {
 	todaysDate: String = "";
-	numDueToday: Number = 0;
+	tasksDue: Object[];
 	currentUser: Object;
 	tasksList: Object[];
 	taskStatusList: any[];
@@ -33,13 +33,12 @@ export class DashboardComponent implements OnInit {
 
 			this.taskService.getAllTasksByUsername(profile.user.username).subscribe(res => {
 				if (res.tasksList) {
-					var count = 0;
 					res.tasksList.forEach(function(task) {
-						console.log("Current count: " + ++count);
 						console.log('\nThe Task is %s', JSON.stringify(task, null, "\t"));
 					})
 					this.tasksList = res.tasksList;
-					this.numDueToday = this.tasksList.length; // TODO: get today's due
+					this.tasksDue = this.getTasksDue(this.tasksList); // TODO: get today's due
+
 				}
 
 			},
@@ -53,6 +52,30 @@ export class DashboardComponent implements OnInit {
 				return false;
 			});
 		this.getAllTaskStatuses();
+	}
+
+	editTask(task) {
+		console.log("Editing task: " + task.name);
+	}
+
+	completeTask(task) {
+		console.log("Completing task: " + task.name);
+	}
+
+	deleteTask(task) {
+		console.log("Deleting task: " + task.name);
+	}
+
+	getTasksDue(taskList) {
+
+		var tasksDue = [taskList.length];
+		var count = 0;
+		taskList.forEach((task) => {
+			if(new Date(task.dueDate) <= new Date() && task.status.statusCode !== 'CO') {
+				tasksDue[count++] = task;
+			}
+		});
+		return tasksDue;
 	}
 
 	formatDate(date) {
