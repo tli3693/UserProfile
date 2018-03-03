@@ -42,7 +42,6 @@ export class AuthService {
   }
   
   testAuthMethod() {
-    console.log("TEST SUCCESS");
     return "HELLO?";
   }
 

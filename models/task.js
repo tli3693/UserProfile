@@ -44,7 +44,6 @@ module.exports.getTasksByUsername = function(username, callback) {
 
     Task.find(query, callback).populate('status').exec(function (err, tasks) {
         if (err) return handleError(err);
-        console.log("OK");
     });
 }
 

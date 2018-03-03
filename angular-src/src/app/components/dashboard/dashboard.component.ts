@@ -3,6 +3,7 @@ import { TaskService } from '../../services/task.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { TaskModalsComponent } from '../tasks/task-modals/task-modals.component';
 
 @Component({
 	selector: 'app-dashboard',
@@ -32,29 +33,23 @@ export class DashboardComponent implements OnInit {
 			this.currentUser = profile.user;
 
 			this.taskService.getAllTasksByUsername(profile.user.username).subscribe(res => {
-				if (res.tasksList) {
-					res.tasksList.forEach(function(task) {
-						console.log('\nThe Task is %s', JSON.stringify(task, null, "\t"));
-					})
+				if (res.tasksList.length > 0) {
 					this.tasksList = res.tasksList;
 					this.tasksDue = this.getTasksDue(this.tasksList); // TODO: get today's due
-
 				}
-
-			},
-				err => {
-					console.log(err);
-					return false;
-				});
-		},
-			err => {
+			}, err => {
 				console.log(err);
 				return false;
 			});
-		this.getAllTaskStatuses();
+		}, err => {
+			console.log(err);
+			return false;
+		});
+
 	}
 
 	editTask(task) {
+		this.taskService.selectTask(task);
 		console.log("Editing task: " + task.name);
 	}
 
@@ -66,15 +61,20 @@ export class DashboardComponent implements OnInit {
 		console.log("Deleting task: " + task.name);
 	}
 
-	getTasksDue(taskList) {
+	openModal(modalId, task) {
+		console.log("Opening modal " + modalId + " for task: " + task.name);
+	}
 
+	getTasksDue(taskList) {
 		var tasksDue = [taskList.length];
 		var count = 0;
 		taskList.forEach((task) => {
-			if(new Date(task.dueDate) <= new Date() && task.status.statusCode !== 'CO') {
+			if (new Date(task.dueDate) <= new Date() && task.status.statusCode !== 'CO') {
+				console.log("HERE");
 				tasksDue[count++] = task;
 			}
 		});
+
 		return tasksDue;
 	}
 
@@ -82,29 +82,4 @@ export class DashboardComponent implements OnInit {
 		var tmpDate = new Date(date);
 		return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
 	}
-
-	getAllTaskStatuses() {
-		this.taskService.getAllStatuses().subscribe(res => {
-			this.taskStatusList = res.statusArray;
-		},
-			err => {
-				console.log(err);
-				return false;
-			});
-	}
-
-	getTaskStatusByCode(code) {
-		var returnStatus = "N/A";
-
-		if (!this.taskStatusList) {
-			this.getAllTaskStatuses();
-		}
-		this.taskStatusList.forEach(function (item, index, array) {
-			if (item.statusCode === code) {
-				returnStatus = item.status;
-			}
-		});
-		return returnStatus;
-	}
-
 }

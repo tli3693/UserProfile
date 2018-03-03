@@ -17,6 +17,7 @@ import {AuthService} from './services/auth.service';
 import {TaskService} from './services/task.service';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import {AuthGuard} from './guards/auth.guard';
+import { TaskModalsComponent } from './components/tasks/task-modals/task-modals.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    TaskModalsComponent
   ],
   imports: [
     BrowserModule,
