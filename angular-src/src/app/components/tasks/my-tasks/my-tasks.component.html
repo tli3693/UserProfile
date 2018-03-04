@@ -1,0 +1,55 @@
+<h3>My Tasks</h3>
+<div class="jumbotron">
+	<div class="row">
+		<div class="right col-md-6">
+			<div class="tasksDiv well">
+				<app-task-modals></app-task-modals>
+				<h3>
+					<a style="text-decoration: underline" [routerLink]="['/']">All Tasks</a>
+				</h3>
+				<span style="color: rgb(0, 128, 90)">Total: {{tasksDue?.length || 0}}</span>
+				<br/>
+				<div class="items row">
+					<div *ngFor="let task of tasksDue">
+						<div class="col-md-6">
+							<div class="task well col-md-12">
+								<p class="taskHeader">
+									<a>{{task.name}}</a>
+								</p>
+								<p class="taskDesc">{{task.description}}</p>
+								Due: {{formatDate(task.dueDate)}}
+								<!-- <br/> Status: {{getTaskStatusByCode(task.statusCode)}} -->
+								<br/> Status: {{task.status?.status}}
+								<br/>
+								<br/>
+								<div class="buttonDiv pull-right">
+									<button class="btn-warning" title="Edit" (click)="editTask(task)" data-toggle="modal" data-target="#editTaskModal">
+										<i class="glyphicon glyphicon-edit"></i>
+									</button>
+									<span> </span>
+									<button class="btn-success" title="Complete" (click)="completeTask(task)">
+										<i class="glyphicon glyphicon-ok"></i>
+									</button>
+									<span> </span>
+									<button class="btn-danger" title="Delete" (click)="deleteTask(task)">
+										<i class="glyphicon glyphicon-remove"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="well directReportsDiv">
+				<h3>Direct Reports</h3>
+				<p style="text-decoration: underline; color: rgb(0, 128, 90)">Placeholder person 1</p>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="well chartDiv">
+				<h3>Tasks Overview</h3>
+				<p>TODO: Weekly tasks completion chart</p>
+			</div>
+		</div>
+	</div>
+</div>

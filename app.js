@@ -27,7 +27,7 @@ const tasks = require('./routes/tasks');
 // CORS Middleware
 app.use(cors());
 
-// Set Static Folder (public)
+// Set Static Folder (public) - angular built app will go here
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Body-Parser Middleware
