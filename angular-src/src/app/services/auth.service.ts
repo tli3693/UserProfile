@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 export class AuthService {
   authToken: any;
   user: any;
-
+  userChange: Subject<string> = new Subject<string>();
   constructor(private http:Http) { 
 
   }
@@ -39,6 +40,12 @@ export class AuthService {
     this.authToken = token;
     this.user = user;
 
+    this.change(user);
+  }
+
+  change(user){
+    this.user = user;
+    this.userChange.next(this.user);
   }
   
   testAuthMethod() {

@@ -17,7 +17,7 @@
         <a class="nav-link" [routerLink]="['/register']">Register</a>
       </li>
       <li class="dropdown" *ngIf="authService.loggedIn()">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{currentUser.name}}
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{currentUser?.name}}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
