@@ -5,17 +5,36 @@ import { AuthService } from '../../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { TaskModalsComponent } from '../task-modals/task-modals.component';
 
+interface Task {
+	_id: String,
+	name: String,
+	description: String,
+	user_username: String,
+	dueDate: Date,
+	status: Status
+}
+
+interface Status {
+	_id: String,
+	statusCode: String,
+	status: Object
+}
+
 @Component({
-  selector: 'app-my-tasks',
-  templateUrl: './my-tasks.component.html',
-  styleUrls: ['./my-tasks.component.css']
+	selector: 'app-my-tasks',
+	templateUrl: './my-tasks.component.html',
+	styleUrls: ['./my-tasks.component.css']
 })
 export class MyTasksComponent implements OnInit {
 
-  todaysDate: String = "";
+	// pie-chart
+	public percent: number = 80;
+	public options: any = [];
+
+	todaysDate: String = "";
 	tasksDue: Object[];
 	currentUser: Object;
-	tasksList: Object[];
+	tasksList: Task[];
 	taskStatusList: any[];
 	count = 0;
 
@@ -37,6 +56,7 @@ export class MyTasksComponent implements OnInit {
 				if (res.tasksList.length > 0) {
 					this.tasksList = res.tasksList;
 					this.tasksDue = this.getTasksDue(this.tasksList); // TODO: get today's due
+					this.populateChartInfo();
 				}
 			}, err => {
 				console.log(err);
@@ -46,6 +66,8 @@ export class MyTasksComponent implements OnInit {
 			console.log(err);
 			return false;
 		});
+
+		
 
 	}
 
@@ -71,15 +93,36 @@ export class MyTasksComponent implements OnInit {
 		var count = 0;
 		taskList.forEach((task) => {
 			if (new Date(task.dueDate) <= new Date() && task.status.statusCode !== 'CO') {
-				console.log("HERE");
 				tasksDue[count++] = task;
 			}
 		});
 
 		return tasksDue;
-  }
-  
-  formatDate(date) {
-    return this.taskService.formatDate(date);
-  }
+	}
+
+	formatDate(date) {
+		return this.taskService.formatDate(date);
+	}
+
+	populateChartInfo() {
+		if (this.tasksList) {
+			this.pie_ChartData = [
+				['Status', 'Number'],
+				['Not Started', this.tasksList.filter(task => task.status.statusCode === 'NS').length],
+				['In Progress', this.tasksList.filter(task => task.status.statusCode === 'IP').length],
+				['Completed', this.tasksList.filter(task => task.status.statusCode === 'CO').length]
+			];
+		} else
+			console.log("Tasks list was null");
+	}
+
+	public pie_ChartData = [];
+
+	public pie_ChartOptions = {
+		title: 'My Task Progress',
+	};
+	public map_ChartOptions = {};
+	public org_ChartOptions = {
+		allowHtml: true
+	};
 }

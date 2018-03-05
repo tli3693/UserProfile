@@ -3,19 +3,25 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
+
 export class NavbarComponent implements OnInit {
+
+  currentUser: Object;
 
   constructor(private authService:AuthService,
     private router:Router,
     private flashMessagesService:FlashMessagesService) { }
 
   ngOnInit() {
+    if(localStorage.getItem('user')) {
+      this.currentUser = JSON.parse(localStorage.getItem('user'));
+    }
   }
 
   onLogoutClick() {

@@ -16,7 +16,6 @@ export class TaskService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    console.log("In task.service.getAllTasksByUsername(username) function with username: " + username);
     return this.http.post(rootContextPath + '/tasks/findAllTasks', { username: username }, { headers: headers })
       .map(res => res.json());
   }
@@ -25,7 +24,6 @@ export class TaskService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    console.log("In task.service.getTaskStatus(statusCode) function");
     return this.http.get(rootContextPath + '/tasks/getAllTaskStatuses', { headers: headers })
       .map(res => res.json());
   }

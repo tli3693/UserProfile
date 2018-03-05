@@ -48,7 +48,8 @@
 		<div class="col-md-6">
 			<div class="well chartDiv">
 				<h3>Tasks Overview</h3>
-				<p>TODO: Weekly tasks completion chart</p>
+				<div *ngIf="tasksList" id="pie_chart" [chartData]="pie_ChartData" [chartOptions] = "pie_ChartOptions" chartType="PieChart" GoogleChart></div>
+				<div *ngIf="!tasksList">You have no tasks.</div>
 			</div>
 		</div>
 	</div>
