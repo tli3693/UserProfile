@@ -2,6 +2,7 @@ import { Component, Injectable, Input, Output, EventEmitter } from '@angular/cor
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+import { AuthService } from './auth.service';
 
 const rootContextPath = "http://localhost:3000";
 
@@ -9,8 +10,9 @@ const rootContextPath = "http://localhost:3000";
 export class TaskService {
 
   @Output() fire: EventEmitter<any> = new EventEmitter();
+  authToken: any;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authService: AuthService) { }
 
   getAllTasksByUsername(username) {
     let headers = new Headers();
@@ -28,9 +30,8 @@ export class TaskService {
       .map(res => res.json());
   }
 
-  
+  // Passes task to modal
   selectTask(task) {
-    console.log('Selection started');
     this.fire.emit(task);
   }
 
@@ -39,7 +40,19 @@ export class TaskService {
   }
 
   formatDate(date) {
-		var tmpDate = new Date(date);
-		return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
-	}
+    var tmpDate = new Date(date);
+    return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
+  }
+
+  saveOrUpdateTask(taskToUpdate) {
+    this.authService.loadToken();
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authService.authToken);
+    var task = { "task": taskToUpdate };
+    console.log("BEFORE SENDING POST REQUEST" + JSON.stringify(task, null, "\t"));
+    return this.http.post(rootContextPath + '/tasks/update', task, { headers: headers })
+      .map(res => res.json());
+  }
 }

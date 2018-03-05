@@ -7,7 +7,7 @@ const Task = require('../models/task');
 const Status = require('../models/status');
 
 // TODO
-router.post('/add', function(req, res) {
+router.post('/add', function (req, res) {
     console.log("DEBUG 1: " + req);
     console.log("DEBUG 2: " + req.body);
     let newTask = new Task({
@@ -16,17 +16,17 @@ router.post('/add', function(req, res) {
         user_username: req.body.user_username,
         statusCode: req.body.statusCode
     });
-    
+
     console.log("DEBUG: New task object: " + newTask);
-    if(!newTask) {
-        res.json({success: false, msg:'Task was empty.'});
+    if (!newTask) {
+        res.json({ success: false, msg: 'Task was empty.' });
     }
     else {
-        Task.addTask(newTask, function(err, task) {
-            if(err) {
-                res.json({success: false, msg:'Failed to add new task'});
+        Task.addTask(newTask, function (err, task) {
+            if (err) {
+                res.json({ success: false, msg: 'Failed to add new task' });
             } else {
-                res.json({success: true, msg:'Task added: ' + task.name});
+                res.json({ success: true, msg: 'Task added: ' + task.name });
             }
         });
     }
@@ -34,51 +34,60 @@ router.post('/add', function(req, res) {
 });
 
 // Find all tasks (working)
-router.post('/findAllTasks', function(req, res) {
+router.post('/findAllTasks', function (req, res) {
     const username = req.body.username;
 
-    console.log('Username passed: ' + username);
-    Task.getTasksByUsername(username, function(err, userTasks) {
-        if(err) throw err;
-        if(userTasks) {
-            console.log("SUCCESS");
-            res.json({success: true, msg:"Successfully retrieved tasks for " + username + ".", tasksList: userTasks});
+    Task.getTasksByUsername(username, function (err, userTasks) {
+        if (err) throw err;
+        if (userTasks) {
+            res.json({ success: true, msg: "Successfully retrieved tasks for " + username + ".", tasksList: userTasks });
         }
         else {
-            console.log("FAILURE");
-            res.json({success: true, msg:"Failed to retrieve tasks for " + username + "."});
+            res.json({ success: true, msg: "Failed to retrieve tasks for " + username + "." });
         }
     });
-    
-});
 
-
-// TODO
-router.get('/update', passport.authenticate('jwt', {session:false}), (req, res, next) => {
-    res.json({user: req.user});
 });
 
 // TODO
-router.get('/remove', passport.authenticate('jwt', {session:false}), (req, res, next) => {
-    res.json({user: req.user});
+router.get('/remove', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    res.json({ user: req.user });
 });
 
 // Get task status by code
-router.get('/getAllTaskStatuses', function(req, res) {
-    console.log("123 - Before retrieving statuses");
-    Status.getAllStatus(function(err, statusArray) {
-        if(err) throw err;
-        if(statusArray) {
-            console.log("SUCCESS");
-            console.log(statusArray);
-            res.json({success: true, msg:"Successfully retrieved statuses.", statusArray: statusArray});
+router.get('/getAllTaskStatuses', function (req, res) {
+    Status.getAllStatus(function (err, statusArray) {
+        if (err) throw err;
+        if (statusArray) {
+            res.json({ success: true, msg: "Successfully retrieved statuses.", statusArray: statusArray });
         }
         else {
-            console.log("FAILURE");
-            res.json({success: true, msg:"Failed to retrieve statuses"});
+            res.json({ success: true, msg: "Failed to retrieve statuses" });
         }
     });
-    
+
+});
+
+// Update Task
+router.post('/update', passport.authenticate('jwt', { session: false }), function (req, res) {
+    console.log("Updating task!!!");
+    let task = new Task({
+        name: req.body.task.name,
+        description: req.body.task.description,
+        dueDate: req.body.task.dueDate,
+        status: req.body.task.status,
+        user_username: req.body.task.user_username
+    });
+    let id = req.body.task._id;
+
+    Task.saveOrUpdate(id, task, function (err, task) {
+        if (err) {
+            console.log('Error occurred while saving task:' + err );
+            res.json({ success: false, msg: 'Error occurred while saving task:' + err });
+        } else {
+            res.json({ success: true, msg: 'Task saving successfully.' });
+        }
+    });
 });
 
 module.exports = router;

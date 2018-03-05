@@ -113,7 +113,9 @@ export class MyTasksComponent implements OnInit {
 			textStyle: {
 				color: '#FFFFFF'
 			}
-		}
+		},
+		width: 500,
+		height: 300
 	};
 
 }

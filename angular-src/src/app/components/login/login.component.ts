@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPasswordEmail() {
-    // TODO: 
+    // TODO: Call email service to send forgot-password e-mail
     console.log("Call email service to send forgot-password e-mail");
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { TaskService } from '../../../services/task.service';
 export class TaskModalsComponent implements OnInit {
   taskSelected: Object;
   allTaskStatuses : Object[];
-
+  @ViewChild("closeEditModal") closeEditModal : ElementRef;
 
   constructor(private taskService: TaskService) { 
     this.taskSelected = null;
@@ -44,5 +44,12 @@ export class TaskModalsComponent implements OnInit {
   }
   updateTask() {
     console.log("Updating task: \n" + JSON.stringify(this.taskSelected,null, "\t"));
+    this.taskService.saveOrUpdateTask(this.taskSelected).subscribe(res => {
+      this.closeEditModal.nativeElement.click();
+      console.log("SUCCESS updating task: ");
+    }, err => {
+      console.log('ERROR updating task: ' + err);
+    });
+    
   }
 }
