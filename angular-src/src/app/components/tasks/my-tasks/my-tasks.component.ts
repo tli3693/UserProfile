@@ -4,21 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { TaskModalsComponent } from '../task-modals/task-modals.component';
-
-interface Task {
-	_id: String,
-	name: String,
-	description: String,
-	user_username: String,
-	dueDate: Date,
-	status: Status
-}
-
-interface Status {
-	_id: String,
-	statusCode: String,
-	status: Object
-}
+import { Task } from '../../../models/task';
+import { Status } from '../../../models/status';
 
 @Component({
 	selector: 'app-my-tasks',
@@ -67,7 +54,7 @@ export class MyTasksComponent implements OnInit {
 			return false;
 		});
 
-		
+
 
 	}
 
@@ -120,9 +107,13 @@ export class MyTasksComponent implements OnInit {
 
 	public pie_ChartOptions = {
 		title: 'My Task Progress',
+		backgroundColor: '#002b36',
+		titleTextStyle: { color: "#0ce3ac" },
+		legend: {
+			textStyle: {
+				color: '#FFFFFF'
+			}
+		}
 	};
-	public map_ChartOptions = {};
-	public org_ChartOptions = {
-		allowHtml: true
-	};
+
 }
