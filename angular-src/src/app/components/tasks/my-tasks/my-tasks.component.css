@@ -1,13 +1,12 @@
 .task {
-	background-color: #002b36;
+	background-color: #375a7f;
+	width: 215px;
+	height: 250px;
 }
 
 .taskDesc {
 	width: 180px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 15px;
-	word-wrap: break-word;
+	font-size: 15px
 }
 
 .taskHeader {
@@ -16,4 +15,11 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-size: 15px
+}
+
+.taskButtonDiv {
+	position:absolute; 
+	bottom:0;  
+	margin-bottom:20px;
+	left: 100px;
 }

@@ -44,15 +44,14 @@ export class TaskService {
     return (tmpDate.getMonth() + 1) + '/' + tmpDate.getDate() + '/' + tmpDate.getFullYear();
   }
 
-  saveOrUpdateTask(taskToUpdate) {
+  saveOrUpdateTask(task) {
     this.authService.loadToken();
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authService.authToken);
-    var task = { "task": taskToUpdate };
-    console.log("BEFORE SENDING POST REQUEST" + JSON.stringify(task, null, "\t"));
-    return this.http.post(rootContextPath + '/tasks/update', task, { headers: headers })
+
+    return this.http.post(rootContextPath + '/tasks/update', { "task": task }, { headers: headers })
       .map(res => res.json());
   }
 }

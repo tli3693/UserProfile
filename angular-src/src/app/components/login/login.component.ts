@@ -32,10 +32,8 @@ export class LoginComponent implements OnInit {
       username: this.username,
       password: this.password,
     }
-    console.log("Attempting to login as: " + user.username);
     this.authService.authenticateUser(user).subscribe(data => {
       if (data.success) {
-        console.log(data);
         this.authService.storeUserData(data.token, data.user);
         this.flashMessagesService.show('You are now logged in as ' + user.username, { cssClass: 'alert-success', timeout: 5000 });
         this.router.navigate(['dashboard']);

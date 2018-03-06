@@ -1,28 +1,29 @@
-<h3>My Tasks</h3>
+<h3><a [routerLink]="['/']">My Tasks</a></h3>
 <div class="jumbotron">
 	<div class="row">
 		<div class="right col-md-6">
 			<div class="tasksDiv well">
 				<app-task-modals></app-task-modals>
-				<h3>
-					<a style="text-decoration: underline" [routerLink]="['/']">All Tasks</a>
-				</h3>
-				<span style="color: rgb(0, 128, 90)">Total: {{tasksDue?.length || 0}}</span>
+				<h4>
+					<span>Tasks Due by End of the Week ({{formatDate(fridayOfTheWeek)}})</span>
+					<span style="color: #0ce3ac">Total: {{tasksDue?.length || 0}}</span>
+				</h4>
 				<br/>
-				<div class="items row">
-					<div *ngFor="let task of tasksDue">
+				<div class="items row" *ngIf="tasksDue?.length>0">
+					<div *ngFor="let task of tasksDue; let i=index">
 						<div class="col-md-6">
-							<div class="task well col-md-12">
+							<div class="task well col-md-12" *ngIf="i<6">
 								<p class="taskHeader">
 									<a>{{task.name}}</a>
 								</p>
-								<p class="taskDesc">{{task.description}}</p>
-								Due: {{formatDate(task.dueDate)}}
-								<!-- <br/> Status: {{getTaskStatusByCode(task.statusCode)}} -->
-								<br/> Status: {{task.status?.status}}
-								<br/>
-								<br/>
-								<div class="buttonDiv pull-right">
+								<p class="taskDesc">{{(task.description.length>100)? (task.description | slice:0:100)+'..':(task.description)}}</p>
+								<span>
+									Due: {{formatDate(task.dueDate)}}
+									<br/> Status: {{task.status?.status}}
+									<br/>
+									<br/>
+								</span>
+								<div class="taskButtonDiv">
 									<button class="btn-warning" title="Edit" (click)="editTask(task)" data-toggle="modal" data-target="#editTaskModal">
 										<i class="glyphicon glyphicon-edit"></i>
 									</button>
@@ -39,6 +40,7 @@
 						</div>
 					</div>
 				</div>
+				<a *ngIf="tasksDue?.length>6" style="font-size: 15px" [routerLink]="['/']">See more...</a>
 			</div>
 			<div class="well directReportsDiv">
 				<h3>Direct Reports</h3>
@@ -48,8 +50,9 @@
 		<div class="col-md-6">
 			<div class="well chartDiv">
 				<h3>Tasks Overview</h3>
-				<div *ngIf="tasksList" id="pie_chart" [chartData]="pie_ChartData" [chartOptions] = "pie_ChartOptions" chartType="PieChart" GoogleChart></div>
-				<div *ngIf="!tasksList">You have no tasks.</div>
+				<div *ngIf="tasksDue?.length>0" id="pie_chart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" chartType="PieChart"
+				 GoogleChart></div>
+				<div *ngIf="!tasksDue?.length>0">You have no tasks.</div>
 			</div>
 		</div>
 	</div>

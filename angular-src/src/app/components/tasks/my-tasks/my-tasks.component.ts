@@ -17,13 +17,14 @@ export class MyTasksComponent implements OnInit {
 	// pie-chart
 	public percent: number = 80;
 	public options: any = [];
-
+	
 	todaysDate: String = "";
-	tasksDue: Object[];
+	tasksDue: Task[];
 	currentUser: Object;
 	tasksList: Task[];
 	taskStatusList: any[];
 	count = 0;
+	fridayOfTheWeek: Date;
 
 	constructor(
 		private authService: AuthService,
@@ -34,7 +35,10 @@ export class MyTasksComponent implements OnInit {
 	ngOnInit() {
 		var tmpDate = new Date();
 		this.todaysDate = this.taskService.formatDate(tmpDate);
-
+		var curr = new Date; // get current date
+		var last = curr.getDate() - curr.getDay() + 5; // First day is the day of the month - the day of the week + 5 (for friday)
+		this.fridayOfTheWeek = new Date(curr.setDate(last));
+		
 		// Get profile from service
 		this.authService.getProfile().subscribe(profile => {
 			this.currentUser = profile.user;
@@ -76,14 +80,15 @@ export class MyTasksComponent implements OnInit {
 	}
 
 	getTasksDue(taskList) {
-		var tasksDue = [taskList.length];
+		var tasksDue = [];
 		var count = 0;
+
+
 		taskList.forEach((task) => {
-			if (new Date(task.dueDate) <= new Date() && task.status.statusCode !== 'CO') {
+			if (new Date(task.dueDate) <= this.fridayOfTheWeek && task.status.statusCode !== 'CO') {
 				tasksDue[count++] = task;
 			}
 		});
-
 		return tasksDue;
 	}
 
@@ -92,12 +97,12 @@ export class MyTasksComponent implements OnInit {
 	}
 
 	populateChartInfo() {
-		if (this.tasksList) {
+		if (this.tasksDue) {
 			this.pie_ChartData = [
 				['Status', 'Number'],
-				['Not Started', this.tasksList.filter(task => task.status.statusCode === 'NS').length],
-				['In Progress', this.tasksList.filter(task => task.status.statusCode === 'IP').length],
-				['Completed', this.tasksList.filter(task => task.status.statusCode === 'CO').length]
+				['Not Started', this.tasksDue.filter(task => task.status.statusCode === 'NS').length],
+				['In Progress', this.tasksDue.filter(task => task.status.statusCode === 'IP').length],
+				['Completed', this.tasksDue.filter(task => task.status.statusCode === 'CO').length]
 			];
 		} else
 			console.log("Tasks list was null");
@@ -107,7 +112,7 @@ export class MyTasksComponent implements OnInit {
 
 	public pie_ChartOptions = {
 		title: 'My Task Progress',
-		backgroundColor: '#002b36',
+		backgroundColor: '#375a7f',
 		titleTextStyle: { color: "#0ce3ac" },
 		legend: {
 			textStyle: {
@@ -117,5 +122,4 @@ export class MyTasksComponent implements OnInit {
 		width: 500,
 		height: 300
 	};
-
 }

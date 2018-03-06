@@ -11,10 +11,10 @@ import { TaskService } from '../../../services/task.service';
 
 export class TaskModalsComponent implements OnInit {
   taskSelected: Object;
-  allTaskStatuses : Object[];
-  @ViewChild("closeEditModal") closeEditModal : ElementRef;
+  allTaskStatuses: Object[];
+  @ViewChild("closeEditModal") closeEditModal: ElementRef;
 
-  constructor(private taskService: TaskService) { 
+  constructor(private taskService: TaskService) {
     this.taskSelected = null;
   }
 
@@ -24,32 +24,29 @@ export class TaskModalsComponent implements OnInit {
       (task) => {
         // Workaround for setting current status
         this.allTaskStatuses.forEach(taskStatus => {
-          if(JSON.stringify(task.status)===JSON.stringify(taskStatus))
+          if (JSON.stringify(task.status) === JSON.stringify(taskStatus))
             task.status = taskStatus;
         });
-        
+
         this.taskSelected = task;
-        
       });
   }
 
   getAllTaskStatuses() {
-		this.taskService.getAllStatuses().subscribe(res => {
-      this.allTaskStatuses= res.statusArray;
-		},
-			err => {
-				console.log(err);
-				return false;
-			});
+    this.taskService.getAllStatuses().subscribe(res => {
+      this.allTaskStatuses = res.statusArray;
+    },
+      err => {
+        console.log(err);
+        return false;
+      });
   }
   updateTask() {
-    console.log("Updating task: \n" + JSON.stringify(this.taskSelected,null, "\t"));
     this.taskService.saveOrUpdateTask(this.taskSelected).subscribe(res => {
       this.closeEditModal.nativeElement.click();
-      console.log("SUCCESS updating task: ");
     }, err => {
       console.log('ERROR updating task: ' + err);
     });
-    
+
   }
 }
