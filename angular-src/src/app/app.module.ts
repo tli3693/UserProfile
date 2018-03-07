@@ -19,7 +19,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { TaskModalsComponent } from './components/tasks/task-modals/task-modals.component';
 import { MyTasksComponent } from './components/tasks/my-tasks/my-tasks.component';
-import { GoogleChart } from 'angular2-google-chart/directives/angular2-google-chart.directive';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,8 +40,7 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     TaskModalsComponent,
-    MyTasksComponent,
-    GoogleChart
+    MyTasksComponent
     
   ],
   imports: [
@@ -49,7 +48,8 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    Ng2GoogleChartsModule
   ],
   providers: [ValidateService, AuthService, AuthGuard, TaskService],
   bootstrap: [AppComponent]

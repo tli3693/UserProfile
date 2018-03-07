@@ -1,4 +1,6 @@
-<h3><a [routerLink]="['/']">My Tasks</a></h3>
+<h3>
+	<a [routerLink]="['/']">My Tasks</a>
+</h3>
 <div class="jumbotron">
 	<div class="row">
 		<div class="right col-md-6">
@@ -49,10 +51,10 @@
 		</div>
 		<div class="col-md-6">
 			<div class="well chartDiv">
-				<h3>Tasks Overview</h3>
-				<div *ngIf="tasksDue?.length>0" id="pie_chart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" chartType="PieChart"
-				 GoogleChart></div>
-				<div *ngIf="!tasksDue?.length>0">You have no tasks.</div>
+				<h3>Tasks Overview </h3>
+				<google-chart [data]="myTasksChartData" (chartReady)='testReady($event)' (chartError)='testError($event)'></google-chart>
+				<hr style="border-color: #EEEEEE" />
+				<google-chart [data]="teamTasksChartData"></google-chart>
 			</div>
 		</div>
 	</div>
