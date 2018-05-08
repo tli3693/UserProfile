@@ -1,0 +1,18 @@
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .right {
+    border-right: 1px solid #ccc;
+  }
+  
+  #background-img { 
+    background-image: url("assets/cloudy-weather-natural-image-1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+    height: 200px;
+    width: 100%;
+  }  

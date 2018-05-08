@@ -16,7 +16,7 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     password: {
-        type:String,
+        type: String,
         required: true
     }
 
@@ -24,20 +24,19 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
-module.exports.getUserById = function(id, callback) {
+module.exports.getUserById = function (id, callback) {
     User.findById(id, callback);
 }
 
-module.exports.getUserByUsername = function(username, callback) {
-    const query = {username: username}
-    console.log("Finding user: " + username);
+module.exports.getUserByUsername = function (username, callback) {
+    const query = { username: username }
     User.findOne(query, callback);
 }
 
-module.exports.addUser = function(newUser, callback) {
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(newUser.password, salt, function(err, hash) {
-            if(err) {
+module.exports.addUser = function (newUser, callback) {
+    bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(newUser.password, salt, function (err, hash) {
+            if (err) {
                 console.log("Error while hashing password: " + err);
                 throw err;
             }
@@ -50,9 +49,9 @@ module.exports.addUser = function(newUser, callback) {
 }
 
 // candidatePassword = entered password
-module.exports.comparePassword = function(candidatePassword, hashPassword, callback) {
-    bcrypt.compare(candidatePassword, hashPassword, function(err, isMatch) {
-        if(err) throw err;
+module.exports.comparePassword = function (candidatePassword, hashPassword, callback) {
+    bcrypt.compare(candidatePassword, hashPassword, function (err, isMatch) {
+        if (err) throw err;
         callback(null, isMatch);
     });
 

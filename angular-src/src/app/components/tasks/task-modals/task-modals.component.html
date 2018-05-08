@@ -1,0 +1,37 @@
+<div class="modal fade" id="editTaskModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Task
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </h3>
+      </div>
+      <form (submit)="updateTask()" *ngIf="taskSelected">
+        <div class="modal-body">
+          <label>Task Name</label>
+          <input type="text" [(ngModel)]="taskSelected.name" name="taskName" class="form-control">
+          <br/>
+          <label>Description</label>
+          <input type="text" [(ngModel)]="taskSelected.description" name="taskDescription" class="form-control">
+          <br/>
+          <label>Due Date</label>
+          <input type="date" [ngModel] ="taskSelected.dueDate | date:'yyyy-MM-dd'" (ngModelChange)="taskSelected.dueDate = $event"  name="taskDueDate" class="form-control">
+          <br/>
+          <label>Status</label>
+          <br/>
+          <select class="form-control" [(ngModel)]="taskSelected.status" name="taskStatus" >
+            <option *ngFor="let taskStatus of allTaskStatuses" [ngValue]="taskStatus"
+            >{{taskStatus.status}}</option>
+          </select>
+          <br/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" type="submit">Save</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" #closeEditModal>Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

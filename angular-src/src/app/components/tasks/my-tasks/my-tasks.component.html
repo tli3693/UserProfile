@@ -1,0 +1,61 @@
+<h3>
+	<a [routerLink]="['/']">My Tasks</a>
+</h3>
+<div class="jumbotron">
+	<div class="row">
+		<div class="right col-md-6">
+			<div class="tasksDiv well">
+				<app-task-modals></app-task-modals>
+				<h4>
+					<span>Tasks Due by End of the Week ({{formatDate(fridayOfTheWeek)}})</span>
+					<span style="color: #0ce3ac">Total: {{tasksDue?.length || 0}}</span>
+				</h4>
+				<br/>
+				<div class="items row" *ngIf="tasksDue?.length>0">
+					<div *ngFor="let task of tasksDue; let i=index">
+						<div class="col-md-6">
+							<div class="task well col-md-12" *ngIf="i<6">
+								<p class="taskHeader">
+									<a>{{task.name}}</a>
+								</p>
+								<p class="taskDesc">{{(task.description.length>100)? (task.description | slice:0:100)+'..':(task.description)}}</p>
+								<span>
+									Due: {{formatDate(task.dueDate)}}
+									<br/> Status: {{task.status?.status}}
+									<br/>
+									<br/>
+								</span>
+								<div class="taskButtonDiv">
+									<button class="btn-warning" title="Edit" (click)="editTask(task)" data-toggle="modal" data-target="#editTaskModal">
+										<i class="glyphicon glyphicon-edit"></i>
+									</button>
+									<span> </span>
+									<button class="btn-success" title="Complete" (click)="completeTask(task)">
+										<i class="glyphicon glyphicon-ok"></i>
+									</button>
+									<span> </span>
+									<button class="btn-danger" title="Delete" (click)="deleteTask(task)">
+										<i class="glyphicon glyphicon-remove"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a *ngIf="tasksDue?.length>6" style="font-size: 15px" [routerLink]="['/']">See more...</a>
+			</div>
+			<div class="well directReportsDiv">
+				<h3>Direct Reports</h3>
+				<p style="text-decoration: underline; color: rgb(0, 128, 90)">Placeholder person 1</p>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="well chartDiv">
+				<h3>Tasks Overview </h3>
+				<google-chart [data]="myTasksChartData" (chartReady)='testReady($event)' (chartError)='testError($event)'></google-chart>
+				<hr style="border-color: #EEEEEE" />
+				<google-chart [data]="teamTasksChartData"></google-chart>
+			</div>
+		</div>
+	</div>
+</div>

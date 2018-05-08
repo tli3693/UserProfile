@@ -22,11 +22,12 @@ mongoose.connection.on('error', function() {
 
 // route to users.js file
 const users = require('./routes/users'); 
+const tasks = require('./routes/tasks'); 
 
 // CORS Middleware
 app.use(cors());
 
-// Set Static Folder (public)
+// Set Static Folder (public) - angular built app will go here
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Body-Parser Middleware
@@ -40,10 +41,15 @@ require('./cfg/passport')(passport);
 
 // Send to users page
 app.use('/users', users);
+app.use('/tasks', tasks);
 
 // Home Page Route
 app.get('/', function(req, res) {
     res.send('Loading...');
+});
+
+app.get('*', (req,res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // Start server (listen on port number)

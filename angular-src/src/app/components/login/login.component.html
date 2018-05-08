@@ -17,10 +17,34 @@
           <label>Password</label>
           <input type="password" [(ngModel)]="password" name="password" class="form-control">
         </div>
-        <input type="submit" class="btn btn-primary" value="Login">
+        <input type="submit" class="btn btn-primary" value="Login"> <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password?</a>
       </form>
       
     </div>
   
     <div class="col-md-2"></div>
+    <div class="modal fade" id="forgotPasswordModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Forgot Password
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </h3>
+            </div>
+            <form (submit)="forgotPasswordEmail()">
+              <div class="modal-body">
+                Enter your e-mail below to receive a link(active for 24 hours) to reset your password.<br/><br/>
+                <label>E-mail</label>
+                <input type="text" [(ngModel)]="user.email" name="userEmail" class="form-control">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" type="submit">Send</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
   </div>

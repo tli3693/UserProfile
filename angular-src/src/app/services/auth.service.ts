@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 export class AuthService {
   authToken: any;
   user: any;
-
+  userChange: Subject<string> = new Subject<string>();
   constructor(private http:Http) { 
 
   }
@@ -32,13 +33,20 @@ export class AuthService {
   }
 
   storeUserData(token, user) {
-    console.log("Storing user data");
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
 
     this.authToken = token;
-    this.user = user;
+    this.change(user);
+  }
 
+  change(user){
+    this.user = user;
+    this.userChange.next(this.user);
+  }
+  
+  testAuthMethod() {
+    return "HELLO?";
   }
 
   logout() {
@@ -64,7 +72,6 @@ export class AuthService {
   loadToken() {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
-
   }
 
   // Angular2 JWT to check if token not expired (logged in or not)
